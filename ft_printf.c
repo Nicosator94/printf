@@ -89,19 +89,20 @@ int	check_chara(va_list arg, const char *f, int i)
 	nb = 0;
 	temp = 0;
 	c = f[i];
-	if (c == '+' || c == '#')
+	if (c == '+' || c == '#' || c == ' ')
 	{
 		if (c == '+')
 			temp = 1;
 		else if (c == '#')
 			temp = 2;
+		else if (c == ' ')
+			temp = 4;
 		c = f[i + 1];
 	}
 	if (c == 'c' || c == 's' || c == '%')
 		nb += chara(arg, c);
-	else if (c == 'd' || c == 'i')
-		nb += number(arg, c, temp);
-	else if (c == 'u' || c == 'x' || c == 'X')
+	else if (c == 'd' || c == 'i' || c == 'u'
+		|| c == 'x' || c == 'X')
 		nb += number(arg, c, temp);
 	else if (c == 'p')
 		nb += hexa(arg);
@@ -123,7 +124,7 @@ int	ft_printf(const char *f, ...)
 		{
 			i ++;
 			nb += check_chara(arg, f, i);
-			if (f[i] == '+' || f[i] == '#')
+			if (f[i] == '+' || f[i] == '#' || f[i] == ' ')
 				i ++;
 		}
 		else

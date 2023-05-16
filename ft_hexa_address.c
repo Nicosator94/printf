@@ -49,13 +49,15 @@ int	tempo(int temp, char *s)
 		ft_putchar_fd('+', 1);
 	else if ((temp == 2 || temp == 5) && s[0] != '0')
 	{
-		if (temp == 2 && s[0] != '0')
+		if (temp == 2)
 			ft_putstr_fd("0x", 1);
-		else if (temp == 5 && s[0] != '0')
+		else if (temp == 5)
 			ft_putstr_fd("0X", 1);
 		i += 1;
 	}
-	else if (temp == 1 || temp == 2 || temp == 5)
+	else if (temp == 4 && s[0] != '-')
+		ft_putchar_fd(' ', 1);
+	else if (temp == 1 || temp == 2 || temp == 5 || temp == 4)
 		i += -1;
 	return (i);
 }

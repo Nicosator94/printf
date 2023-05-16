@@ -21,5 +21,6 @@ int		ft_printf(const char *f, ...);
 char	*ft_unsigned_itoa(unsigned int n);
 char	*ft_conv_hexa(unsigned int nb, char *hexa);
 char	*ft_hexa_address(unsigned long nb, char *hexa);
+int		tempo(int temp, char *s);
 
 #endif
