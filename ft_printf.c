@@ -39,7 +39,7 @@ int	chara(va_list arg, char A)
 	return (-1);
 }
 
-int	number(va_list arg, char A)
+int	number(va_list arg, char A, int temp)
 {
 	char	*s;
 	int		i;
@@ -51,9 +51,13 @@ int	number(va_list arg, char A)
 	else if (A == 'x')
 		s = ft_conv_hexa(va_arg(arg, unsigned int), "0123456789abcdef");
 	else if (A == 'X')
+	{
 		s = ft_conv_hexa(va_arg(arg, unsigned int), "0123456789ABCDEF");
+		temp += 3;
+	}
+	temp = tempo(temp, s);
 	ft_putstr_fd(s, 1);
-	i = ft_strlen(s) - 2;
+	i = ft_strlen(s) - 2 + temp;
 	free(s);
 	return (i);
 }
@@ -76,16 +80,29 @@ int	hexa(va_list arg)
 	return (i);
 }
 
-int	check_chara(va_list arg, char c)
+int	check_chara(va_list arg, const char *f, int i)
 {
-	int	nb;
+	int		nb;
+	int		temp;
+	char	c;
 
 	nb = 0;
+	temp = 0;
+	c = f[i];
+	if (c == '+' || c == '#')
+	{
+		if (c == '+')
+			temp = 1;
+		else if (c == '#')
+			temp = 2;
+		c = f[i + 1];
+	}
 	if (c == 'c' || c == 's' || c == '%')
 		nb += chara(arg, c);
-	else if (c == 'd' || c == 'i' || c == 'u'
-		|| c == 'x' || c == 'X')
-		nb += number(arg, c);
+	else if (c == 'd' || c == 'i')
+		nb += number(arg, c, temp);
+	else if (c == 'u' || c == 'x' || c == 'X')
+		nb += number(arg, c, temp);
 	else if (c == 'p')
 		nb += hexa(arg);
 	return (nb);
@@ -105,7 +122,9 @@ int	ft_printf(const char *f, ...)
 		if (f[i] == '%')
 		{
 			i ++;
-			nb += check_chara(arg, f[i]);
+			nb += check_chara(arg, f, i);
+			if (f[i] == '+' || f[i] == '#')
+				i ++;
 		}
 		else
 			ft_putchar_fd(f[i], 1);
