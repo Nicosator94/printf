@@ -124,6 +124,8 @@ int	ft_printf(const char *f, ...)
 		{
 			i ++;
 			nb += check_chara(arg, f, i);
+			if (f[i] == ' ' && f[i + 1] == 's')
+				nb += -1;
 			if (f[i] == '+' || f[i] == '#' || f[i] == ' ')
 				i ++;
 		}
